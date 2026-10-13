@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { BookingProvider } from "@/components/Booking";
+import { MotionProvider } from "@/components/MotionProvider";
+import { Header } from "@/components/Header";
+import { FloatingNav } from "@/components/sections/Commerce";
+import { Footer } from "@/components/sections/Static";
 
 // Self-hosted (from Fontsource, OFL licensed): no third-party requests, no layout shift.
 const display = localFont({
@@ -30,7 +35,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bunfire.example";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Bunfire Burger & Grill | Smash burgers and charcoal grill",
+  title: {
+    default: "Bunfire Burger & Grill | Smash burgers and charcoal grill",
+    template: "%s | Bunfire Burger & Grill",
+  },
   description:
     "Smash burgers made with beef ground every morning, charcoal-grilled skewers, hand-cut fries and thick shakes. Order now or book a table at a Bunfire near you.",
   alternates: { canonical: "/" },
@@ -66,7 +74,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${display.variable} ${body.variable} ${script.variable}`}>
       <body>
         <a className="skip-link" href="#main">Skip to content</a>
-        {children}
+        {/* Header, footer, dock and booking dialog persist across page changes. */}
+        <MotionProvider>
+          <BookingProvider>
+            <Header />
+            <main id="main">{children}</main>
+            <Footer />
+            <FloatingNav />
+          </BookingProvider>
+        </MotionProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>

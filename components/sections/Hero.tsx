@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AnimatePresence, m } from "framer-motion";
 import { useRef, useState } from "react";
 import type { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -143,6 +144,10 @@ export default function Hero() {
   };
 
   return (
+    // GSAP's pin wraps the section in a spacer element. This React-owned wrapper
+    // keeps that spacer inside a node React manages, so leaving the page can't
+    // trip over DOM that React didn't create.
+    <div className="hero-wrap">
     <section id="top" className="hero" ref={root} aria-labelledby="hero-title">
       <div className="hero__deco" aria-hidden="true">
         {deco.map(({ Art, left, top, size, depth }, i) => (
@@ -164,8 +169,8 @@ export default function Hero() {
           Beef ground every morning, smashed when you order, finished on a charcoal grill.
         </p>
         <div className="hero__ctas">
-          <a className="btn btn--lime btn--lg" href="#menu">Order now</a>
-          <a className="btn btn--cream-outline btn--lg" href="#menu">See the menu</a>
+          <Link className="btn btn--lime btn--lg" href="/menu">Order now</Link>
+          <Link className="btn btn--cream-outline btn--lg" href="/menu">See the menu</Link>
         </div>
       </div>
 
@@ -232,7 +237,7 @@ export default function Hero() {
 
       <div className="hero__end">
         <p>Hot, boxed and out the door.</p>
-        <a className="btn btn--lime btn--lg" href="#menu">Order now</a>
+        <Link className="btn btn--lime btn--lg" href="/menu">Order now</Link>
       </div>
 
       <div className="hero__cue" aria-hidden="true">
@@ -240,5 +245,6 @@ export default function Hero() {
         <svg viewBox="0 0 24 36"><rect x="2" y="2" width="20" height="32" rx="10" /><circle cx="12" cy="11" r="3" /></svg>
       </div>
     </section>
+    </div>
   );
 }

@@ -3,14 +3,20 @@
 import { locations } from "@/lib/content";
 import { Fries, MiniBurger, Shake } from "@/components/art/Ingredients";
 import { BookButton } from "@/components/BookButton";
+import Link from "next/link";
 import { Wordmark } from "@/components/Wordmark";
+import { navLinks } from "@/lib/nav";
 
 /* ---------- Locations ---------- */
 
-export function Locations() {
+export function Locations({ title = "Find a grill" }: { title?: string | null }) {
   return (
     <section id="locations" className="locations" aria-labelledby="loc-title">
-      <h2 id="loc-title" className="locations__title">Find a grill</h2>
+      {title ? (
+        <h2 id="loc-title" className="locations__title">{title}</h2>
+      ) : (
+        <h2 id="loc-title" className="sr-only">All locations</h2>
+      )}
       <ul className="locations__grid">
         {locations.map((l) => (
           <li key={l.name} className="loc">
@@ -65,9 +71,10 @@ export function Footer() {
         </div>
         <nav className="footer__col" aria-label="Explore">
           <h2>Explore</h2>
-          <a href="#menu">Menu</a>
-          <a href="#how">How we cook</a>
-          <a href="#locations">Locations</a>
+          <Link href="/">Home</Link>
+          {navLinks.map((l) => (
+            <Link key={l.href} href={l.href}>{l.label}</Link>
+          ))}
         </nav>
         <div className="footer__col">
           <h2>Visit</h2>

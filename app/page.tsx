@@ -1,29 +1,20 @@
-import { BookingProvider } from "@/components/Booking";
-import { MotionProvider } from "@/components/MotionProvider";
-import { Header } from "@/components/Header";
 import Hero from "@/components/sections/Hero";
-import { Intro, Promises, Ribbon, Statement } from "@/components/sections/Story";
-import { FloatingNav, MenuSection } from "@/components/sections/Commerce";
-import { BookCta, Footer, Locations } from "@/components/sections/Static";
+import { Intro, Ribbon, Statement } from "@/components/sections/Story";
+import { LocationsTeaser, MenuTeaser } from "@/components/sections/Pages";
+import { BookCta } from "@/components/sections/Static";
+
+export const metadata = { alternates: { canonical: "/" } };
 
 export default function Home() {
   return (
-    <MotionProvider>
-    <BookingProvider>
-      <Header />
-      <main id="main">
-        <Hero />
-        <Intro />
-        <Ribbon />
-        <Promises />
-        <Statement />
-        <MenuSection />
-        <Locations />
-        <BookCta />
-      </main>
-      <Footer />
-      <FloatingNav />
-    </BookingProvider>
-    </MotionProvider>
+    <>
+      <Hero />
+      <Intro />
+      <Ribbon />
+      <MenuTeaser />
+      <Statement />
+      <LocationsTeaser />
+      <BookCta />
+    </>
   );
 }

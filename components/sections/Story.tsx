@@ -1,6 +1,7 @@
 /* Server components: all of this markup renders to HTML and never hydrates.
    Motion is layered on by the small client wrappers in components/motion. */
 
+import Link from "next/link";
 import { DrawMotion, IntroMotion, RibbonMotion, WordsMotion } from "@/components/motion/Reveal";
 import {
   BunBottom, BunTop, Cheese, Fries, Lettuce, MiniBurger, Patty, Pickle, Shake, Skewer, Spark, Tomato,
@@ -28,7 +29,7 @@ export function Intro() {
             Every burger is smashed to order, so it reaches you crisp at the edges and juicy in the middle. The grill
             side of the menu gets the same care, from chicken skewers to lamb kofta.
           </p>
-          <a className="link-arrow" href="#menu">Read the full menu</a>
+          <Link className="link-arrow" href="/menu">Read the full menu</Link>
         </div>
       </div>
 

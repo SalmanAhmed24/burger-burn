@@ -1,7 +1,10 @@
 "use client";
 
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { navLinks, ORDER_URL } from "@/lib/nav";
 import { useBooking } from "./Booking";
 import { Wordmark } from "./Wordmark";
 
@@ -27,16 +30,16 @@ export function Ticker() {
   );
 }
 
-const links = [
-  { href: "#menu", label: "Menu" },
-  { href: "#how", label: "How we cook" },
-  { href: "#locations", label: "Locations" },
-];
+const links = navLinks;
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const { open: openBooking } = useBooking();
   const reduce = useReducedMotion();
+  const pathname = usePathname();
+
+  // Close the overlay whenever the route changes (link click, back button).
+  useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -67,13 +70,13 @@ export function Header() {
           <span className="nav__label">{open ? "Close" : "Menu"}</span>
         </button>
 
-        <a href="#top" className="nav__logo">
+        <Link href="/" className="nav__logo" aria-current={pathname === "/" ? "page" : undefined}>
           <Wordmark />
-        </a>
+        </Link>
 
         <div className="nav__actions">
           <button className="btn btn--outline nav__book" onClick={openBooking}>Book a table</button>
-          <a className="btn btn--lime" href="#menu">Order now</a>
+          <Link className="btn btn--lime" href={ORDER_URL}>Order now</Link>
         </div>
       </div>
 
@@ -89,6 +92,15 @@ export function Header() {
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             <ul>
+              <m.li
+                initial={{ y: 60, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.18, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Link href="/" onClick={() => setOpen(false)} aria-current={pathname === "/" ? "page" : undefined}>
+                  Home
+                </Link>
+              </m.li>
               {links.map((l, i) => (
                 <m.li
                   key={l.href}
@@ -96,7 +108,13 @@ export function Header() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.25 + i * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <a href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={pathname === l.href ? "page" : undefined}
+                  >
+                    {l.label}
+                  </Link>
                 </m.li>
               ))}
               <m.li
